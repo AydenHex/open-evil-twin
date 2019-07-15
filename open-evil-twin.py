@@ -8,7 +8,7 @@ import logging
 
 # Owned
 import utils
-import aircrack
+from core import aircrack
 
 __author__ = "Quentin Royer"
 __license__ = "GNU GPLv3"

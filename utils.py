@@ -2,9 +2,8 @@ import subprocess
 from wifi import Cell
 import os
 
-import iptc
 
-from models import hotspot
+from core.models import hotspot
 
 #
 # Description: allows to increase wifi power with custom value (max=30mW)
