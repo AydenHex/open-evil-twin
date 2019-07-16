@@ -1,1 +1,4 @@
 wifi
+colorama
+wireless
+packaging

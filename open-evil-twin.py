@@ -2,13 +2,19 @@
 
 
 # Generic/Built-in
-import argparse
-import time
 import logging
+import txt
+import time
+import sys
+from core import wifi
+import subprocess
+from wireless import Wireless
+from colorama import Fore
 
 # Owned
-import utils
-from core import aircrack
+from core import aircrack, utils
+from core.utils import warning, question, wait, information, found, tiret
+from core.interface import upInterface, downInterface
 
 __author__ = "Quentin Royer"
 __license__ = "GNU GPLv3"
@@ -17,14 +23,80 @@ __maintainer__ = "Quentin Royer"
 __email__ = "quentin.royer@edu.itescia.fr"
 __status__ = "Dev"
 
-# main code
-target = 0
-hotspots = []
+stop = False
+listSoft = ["dnsmasq", "dsniff", "aircrack-ng"]
+wireless = Wireless()
 
-#configure logging
-logging.basicConfig(format='%(levelname)s:%(message)s', level=logging.DEBUG)
+
+
+
+print(txt.logo)
+
+print("Welcome in Open Evil Twin. Please wait, we are verifing your installation...")
+time.sleep(3)
+
+print(wait+"Package dependancies..")
+
+for soft in listSoft:
+    exist = subprocess.call('dpkg -l ' + soft + '>> /dev/null', shell=True)
+    if exist == 0:
+        print(information + soft + " installed")
+    else:
+        print(warning + soft + " not installed")
+        stop = True
+
+
+if stop:
+    print(wait+"Please install missing package")
+    exit(1)
+    sys.exit("\n"+warning+ "Please install missing package\n")
+
+time.sleep(2)
+
 
 try:
+    while True:
+        print(txt.mainOption)
+        time.sleep(1)
+
+        option = input("\n OET("+Fore.BLUE + "~" + Fore.RESET + ")$ ")
+
+        if option.lower() == "h":
+            print(txt.helpMain)
+        elif option.lower() == "c":
+            utils.clear()
+            print(txt.mainOption)
+        elif option.lower() == "e":
+            sys.exit(information + "Bye :)")
+        elif option.lower() == "1":
+            utils.clear()
+            interfaces, interface = wifi.scanningInterfaces(wireless)
+            print("\n"+ wait+"Upping interface...")
+            upInterface(interfaces[interface])
+            print("\n"+ wait +"Scanning hotspots wifi...")
+            hotspots = wifi.scanHotspots(interfaces[interface])
+            for hotspot in hotspots:
+                print(hotspot)
+        elif option.lower() == "2":
+
+            pass
+        flag = True
+        while flag:
+            print(question + "Type 'e' to exit and 'r' to restart the script")
+            choice = input("\n OET("+Fore.BLUE + "~" + Fore.RESET + ")$ ")
+            if choice == "e":
+                sys.exit("\n" + information + "Bye ! :)")
+            if choice == "r":
+                flag = False
+        utils.clear()
+
+
+
+
+except KeyboardInterrupt:
+	sys.exit("\n"+information+" Bye ! :)")
+
+"""try:
     parser = argparse.ArgumentParser()
     parser.add_argument("--scan", "-s", help="This argument allows to launch an wifi scan", action="store_true")
     parser.add_argument("--attack", "-a", help="This argument allows to launch an evil twin attack", action="store_true")
@@ -129,5 +201,5 @@ try:
 except Exception as e:
     print("Exception occured: " + e)
 except KeyboardInterrupt:
-    print("ok")
+    print("ok")"""
 
