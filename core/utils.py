@@ -1,4 +1,6 @@
 import subprocess
+import os
+
 from colorama import init, Fore,  Back,  Style
 
 warning = "["+Fore.RED+"!"+Fore.RESET+"] "
@@ -7,6 +9,10 @@ information = "["+Fore.BLUE+"I"+Fore.RESET+"] "
 wait = "["+Fore.MAGENTA+"*"+Fore.RESET+"] "
 found = "["+Fore.GREEN+"+"+Fore.RESET+"] "
 tiret = "["+Fore.CYAN+"-"+Fore.RESET+"] "
+
+
+FNULL = open(os.devnull, 'w')
+
 
 def clear():
     subprocess.call("clear")

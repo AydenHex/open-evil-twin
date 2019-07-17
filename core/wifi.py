@@ -6,14 +6,6 @@ from core.models import hotspot
 from core.utils import wait, information, printInterfaces, question
 from colorama import Fore
 
-def scanningInterfaces(wireless):
-    print(wait + "Scanning interfaces...")
-    interfaces = wireless.interfaces()
-    print(information + "Our availables interfaces: \n")
-    printInterfaces(interfaces)
-    print("\n" + question + "Select an interface for scanning")
-    interface = int(input("\n OET(" + Fore.BLUE + "~" + Fore.RESET + ")$ "))
-    return interfaces, interface
 #
 # Description: allows to increase wifi power with custom value (max=30mW)
 # Param: the interface of the wifi card

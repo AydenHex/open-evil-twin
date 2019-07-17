@@ -1,4 +1,6 @@
-import subprocess
+from subprocess import call, Popen, PIPE
+
+from core.utils import FNULL
 
 #
 # Description: Allows to put an wifi module in monitor mode
@@ -6,7 +8,7 @@ import subprocess
 # Return: True if process succeded, else false
 #
 def airmonStart(interface):
-    processAirmon = subprocess.call(["airmon-ng", "start", interface])
+    processAirmon = call(["airmon-ng", "start", interface], stdout=FNULL)
     if not processAirmon:
         return True
     return False
@@ -18,7 +20,7 @@ def airmonStart(interface):
 # Return: True if process succeded, else false
 #
 def airmonStop(interface):
-    processAirmonStop = subprocess.call(["airmon-ng", "stop", interface])
+    processAirmonStop = call(["airmon-ng", "stop", interface], stdout=FNULL)
     if not processAirmonStop:
         return True
     return False
@@ -30,8 +32,5 @@ def airmonStop(interface):
 # Param: the ssid of the target
 # Param: the channel of the target
 #
-def airbaseStart(interface, ssid, channel):
-    processAirbaise = subprocess.Popen(["airbase-ng", "-e", "rootsh3ll", "-c", channel, interface, "-q"])
-    if not processAirbaise:
-        return False, processAirbaise
-    return True, None
+def airbaseStart(interface, hotspot):
+    processAirbaise = Popen(["airbase-ng", "-e", hotspot.ssid, "-c", str(hotspot.channel), interface+"mon"])

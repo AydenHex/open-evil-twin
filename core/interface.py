@@ -1,4 +1,15 @@
 import subprocess
+from core.utils import wait, information, question, printInterfaces
+from colorama import Fore
+
+def scanningInterfaces(wireless):
+    print(wait + "Scanning interfaces...")
+    interfaces = wireless.interfaces()
+    print(information + "Our availables interfaces: \n")
+    printInterfaces(interfaces)
+    print("\n" + question + "Select an interface for scanning")
+    interface = int(input("\n OET(" + Fore.BLUE + "~" + Fore.RESET + ")$ "))
+    return interfaces, interface
 
 #
 # Description: allows to restart an interface (down and up)
